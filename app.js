@@ -6,7 +6,7 @@ const bcrypt =  require("bcryptjs")
 const TWO_HOURS = 1000 * 60 * 60 * 2;
 
 const {
-    PORT = 3000, 
+    PORT = 8080, 
     SESS_NAME = 'sid', 
     SESS_SECRET = 'salkfjgl sakf u', 
     NODE_ENV = 'development',
@@ -21,7 +21,9 @@ app.use(bodyParser.urlencoded({
     extended:true
 }))
 
-const users = []
+const users = [
+    
+]
 
 app.use(session({
     name: SESS_NAME,
@@ -53,7 +55,7 @@ const redirectHome = (req, res, next) =>{
 
 app.get('/', (req, res) =>{
     const {userId} = req.session
-    res.json(users)
+    
     res.send(
        ` <h1>Welcome</h1>
        ${userId ? `
@@ -66,6 +68,7 @@ app.get('/', (req, res) =>{
        `} 
         </form>`
     )
+    
 })
 
 app.get('/home', redirectLogin, (req, res) =>{
@@ -116,11 +119,11 @@ app.post('/login',redirectHome, async (req, res) =>{
                             }else{
                                 res.send('Not Allowed')
                             }
-                        }catch(err){
+                        }catch{
                             res.status(500).send()
                         }
-                     }
                     }
+            }   
             else{
                 res.redirect('/login')
             }
@@ -172,4 +175,4 @@ req.session.destroy(err =>{
 })
 })
 
- app.listen(PORT, () => console.log(`http://localhost: ${PORT}`))
+ app.listen(PORT, () => console.log(`http://localhost:${PORT}`))
